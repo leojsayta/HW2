@@ -1,136 +1,194 @@
 //
 //  main.cpp
-//  Euler Problem 1
+//  Euler Problem 90
 //
 //  Created by Joel Atyas on 1/25/15.
 //  Copyright (c) 2015 Joel Atyas. All rights reserved.
 //
-// Github push test
 
 #include <iostream>
 #include <string.h>
 #include <exception>
+#include <array>
+#include <vector>
+#include "HW2Classes.h"
 
 using namespace std;
 
-#define FINESSE
+bool diceContainAllSquares(const Die d1, const Die d2);
 
-/*
-   Function to read and validate user input
-   (help from http://stackoverflow.com/questions/4023895/how-to-read-string-entered-by-user-in-c/4023921#4023921)
- */
-#define OK       0      // input is valid
-#define NO_INPUT 1      // user did not enter anything
-#define TOO_LONG 2      // too much information entered
-#define DEFAULT_INPUT 3 // user pressed return with nothing preceding
-static int getUserInputLine(char *prmpt, char *buff, size_t sz) {
-	int ch, extra;
+void solveByRecursion(Die d1, Die d2);
 
-	// Get line with buffer overrun protection.
-	if (prmpt != NULL) {
-		printf("%s", prmpt);
-		fflush(stdout);
-	}
-	if (fgets(buff, sz, stdin) == NULL)
-		return NO_INPUT;
+void solveByIteration(Die d1, Die d2);
 
-	// If it was too long, there'll be no newline. In that case, we flush
-	// to end of line so that excess doesn't affect the next call.
-	if (buff[strlen(buff) - 1] != '\n') {
-		extra = 0;
-		while (((ch = getchar()) != '\n') && (ch != EOF))
-			extra = 1;
-		return (extra == 1) ? TOO_LONG : OK;
-	}
+int SetCountbyRecursion = 0;
+int SetCountbyIteration = 0;
+
+Die d1, d2;
+
+int main(int argc, const char *argv[]) 
+{
+    d1 = Die(5,4,3,2,1,0);
+    d2 = Die(5,4,3,2,1,0);
     
-    if (buff[0] == '\n') {
-        return DEFAULT_INPUT;
+    try 
+    {
+        solveByRecursion(d1, d2);
+        printf("The number of squares is: %d", SetCountbyRecursion);
+        //solveByIteration(d1, d2);
+        
+    } 
+    catch (exception &) 
+    {
+        printf("\nSomething went wrong!  Please start over.");
+        return -1;
     }
 
-	// Otherwise remove newline and give string back to caller.
-	buff[strlen(buff) - 1] = '\0';
-	return OK;
+    return 0;
 }
 
-int solveByBruteForce(int input);
-
-int solveByCleverness(int input);
-
-int main(int argc, const char *argv[]) {
-	
-    int userInput = 0;
-	char inputBuffer[7];
-	int inputResult = 0;
-
-	int sumMult = 0;
-
-    printf("Please enter an integer value of less than 1,000,000. Enter return to accept a default of 1000: ");
-	try {
-		while ((inputResult = getUserInputLine(NULL, inputBuffer, sizeof(inputBuffer))) != OK) {
-			switch (inputResult) {
-				case NO_INPUT:
-					printf("\nPlease enter an integer value:  \n");
-					break;
-				case TOO_LONG:
-                    printf("\nPlease enter an integer value less 1,000,000:  \n");
-					break;
-                case DEFAULT_INPUT:
-                    printf("\nDefault value of 1000 accepted.  \n");
-                    break;
-				default:
-					break;
-			}
-            if (inputResult == DEFAULT_INPUT) {
-                break;
-            }
-		}
+void solveByRecursion(Die d1, Die d2) 
+{
+    if (diceContainAllSquares(d1, d2))
+        SetCountbyRecursion++;
+    
+    if (d2.GetSide1() < 8) 
+    {
+        d2.SetSide1(d2.GetSide1() + 1);
+        solveByRecursion(d1, d2);
+    } 
+    else if (d2.GetSide2() < 7) 
+    {
+        d2.SetSide2(d2.GetSide2() + 1);
+        solveByRecursion(d1, d2);
+    } 
+    else if (d2.GetSide3() < 6) 
+    {
+        d2.SetSide3(d2.GetSide3() + 1);
+        solveByRecursion(d1, d2);
+    } 
+    else if (d2.GetSide4() < 5) 
+    {
+        d2.SetSide4(d2.GetSide4() + 1);
+        solveByRecursion(d1, d2);
+    } 
+    else if (d2.GetSide5() < 4) 
+    {
+        d2.SetSide5(d2.GetSide5() + 1);
+        solveByRecursion(d1, d2);
+    } 
+    else if (d2.GetSide6() < 3) 
+    {
+        d2.SetSide6(d2.GetSide6() + 1);
+        solveByRecursion(d1, d2);
+    }
+    else
+    {
+        d2.SetDieSides(vector<int> {5,4,3,2,1,0});
         
-        if (inputResult == DEFAULT_INPUT) {
-            userInput = 1000;
+        if (d1.GetSide1() < 8) 
+        {
+            d1.SetSide1(d1.GetSide1() + 1);
+            solveByRecursion(d1, d2);
+        } 
+        else if (d1.GetSide2() < 7) 
+        {
+            d1.SetSide2(d1.GetSide2() + 1);
+            solveByRecursion(d1, d2);
+        } 
+        else if (d1.GetSide3() < 6) 
+        {
+            d1.SetSide3(d1.GetSide3() + 1);
+            solveByRecursion(d1, d2);
+        } 
+        else if (d1.GetSide4() < 5) 
+        {
+            d1.SetSide4(d1.GetSide4() + 1);
+            solveByRecursion(d1, d2);
+        } 
+        else if (d1.GetSide5() < 4) 
+        {
+            d1.SetSide5(d1.GetSide5() + 1);
+            solveByRecursion(d1, d2);
+        } 
+        else if (d1.GetSide6() < 3) 
+        {
+            d1.SetSide6(d1.GetSide6() + 1);
+            solveByRecursion(d1, d2);
         }
         else
-            userInput = atoi(inputBuffer);
-	}
-	catch (exception &)
-	{
-		printf("\nSomething went wrong!  Please start over.");
-		return -1;
-	}
-    
-#ifndef FINESSE
-    sumMult = solveByBruteForce(userInput);
-#else
-    sumMult = solveByCleverness(userInput);
-#endif
-    
-    printf("\n");
-    printf("The sum of all the numbers less than %d with a factor of three or five is %d.\n", userInput, sumMult);
-
-	return 0;
-}
-
-
-int solveByBruteForce(int input)
-{
-    int sumMultiples = 0;
-    
-    for (int index = 1; index < input; index++) {
-        
-        if ((index%3 == 0) || (index%5 == 0)) {
-            sumMultiples += index;
+        {
+            return;
         }
     }
     
-    return sumMultiples;
 }
 
-int solveByCleverness(int input)
+void solveByIteration(Die d1, Die d2) 
 {
-    input -= 1;
+    if (d1.GetSide1() == 8 &&
+        d1.GetSide2() == 7 &&
+        d1.GetSide3() == 6 &&
+        d1.GetSide4() == 5 &&
+        d1.GetSide5() == 4 &&
+        d1.GetSide6() == 3)
+        
+        
+        
+        return;
+    else
+    {
+        for(int sd : d1.GetDieSides())
+        {
+            
+        }
+    }
+}
+
+bool diceContainAllSquares(Die d1, Die d2) 
+{
+    if (!
+         ((d1.ContainsNumber(0) && d2.ContainsNumber(1) && d2.ContainsNumber(4) && d2.ContainsNumber(6))
+         || 
+         (d2.ContainsNumber(0) && d1.ContainsNumber(1) && d1.ContainsNumber(4) && d1.ContainsNumber(6)))   
+       )
+        return false;
     
-    int threeN = input/3;
-    int fiveN = input/5;
-    int fifteenN = input/15;
+    if (!
+         ((d1.ContainsNumber(1) && d2.ContainsNumber(6))
+         || 
+         (d2.ContainsNumber(1) && d1.ContainsNumber(6)))   
+       )
+        return false;
     
-    return (3*threeN*(threeN + 1))/2 + (5*fiveN*(fiveN + 1))/2 - (15*fifteenN*(fifteenN + 1))/2;
+    if (!
+         ((d1.ContainsNumber(2) && d2.ContainsNumber(5))
+         || 
+         (d2.ContainsNumber(2) && d1.ContainsNumber(5)))   
+       )
+        return false;
+    
+    if (!
+         ((d1.ContainsNumber(3) && d2.ContainsNumber(6))
+         || 
+         (d2.ContainsNumber(3) && d1.ContainsNumber(6)))   
+       )
+        return false;
+    
+    if (!
+         ((d1.ContainsNumber(4) && d2.ContainsNumber(6))
+         || 
+         (d2.ContainsNumber(4) && d1.ContainsNumber(6)))   
+       )
+        return false;
+    
+    if (!
+         ((d1.ContainsNumber(8) && d2.ContainsNumber(1))
+         || 
+         (d2.ContainsNumber(8) && d1.ContainsNumber(1)))   
+       )
+        return false;
+    
+    return true;
+
 }
