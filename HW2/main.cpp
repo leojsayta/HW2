@@ -19,36 +19,24 @@ bool diceContainAllSquares(const Die d1, const Die d2);
 
 void solveByRecursion(Die d1, Die d2);
 
-void solveByIteration(Die d1, Die d2);
+void solveByIteration();
 
 int SetCountbyRecursion = 0;
 int SetCountbyIteration = 0;
+int RecursiveCount = 0;
+int IterativeCount = 0;
 
 int main(int argc, const char *argv[]) 
-{
-    Die die1;
-    Die die2;
-    
-//    printf("Die 1: Side 1 = %d, Side 2 = %d, Side 3 = %d, Side 4 = %d, Side 5 = %d, Side 6 = %d",
-//           die1.GetSide1(), die1.GetSide2(), die1.GetSide3(),
-//           die1.GetSide4(), die1.GetSide5(), die1.GetSide6());
-//    printf("Die 2: Side 1 = %d, Side 2 = %d, Side 3 = %d, Side 4 = %d, Side 5 = %d, Side 6 = %d",
-//           die2.GetSide1(), die2.GetSide2(), die2.GetSide3(),
-//           die2.GetSide4(), die2.GetSide5(), die2.GetSide6());
-    
+{    
     try
     {
+        solveByRecursion(Die(5,4,3,2,1,0), Die(5,4,3,2,1,0));
+        printf("Solving by recursion, the number of squares is: %d\n", SetCountbyRecursion);
+        printf("The number of recursive calls is: %d\n", RecursiveCount);
         
-        die1 = Die(5,4,3,2,1,0);
-        die2 = Die(5,4,3,2,1,0);
-        solveByRecursion(die1, die2);
-        printf("Solving by recursion, the number of squares is: %d", SetCountbyRecursion);
-        
-        die1 = Die(5,4,3,2,1,0);
-        die2 = Die(5,4,3,2,1,0);
-        //solveByIteration(die1, die2);
-        printf("Solving by iteration, the number of squares is: %d", SetCountbyIteration);
-        
+        solveByIteration();
+        printf("Solving by iteration, the number of squares is: %d\n", SetCountbyIteration);
+        printf("The number of iterations is: %d\n", IterativeCount);
     } 
     catch (exception &)
     {
@@ -59,8 +47,10 @@ int main(int argc, const char *argv[])
     return 0;
 }
 
-void solveByRecursion(Die d1, Die d2) 
+void solveByRecursion(Die d1, Die d2)
 {
+    RecursiveCount++;
+    
     if (diceContainAllSquares(d1, d2))
     {
         SetCountbyRecursion++;
@@ -197,7 +187,7 @@ void solveByRecursion(Die d1, Die d2)
     
 }
 
-void solveByIteration(Die d1, Die d2) 
+void solveByIteration()
 {
     int d1s6 = 0;
     int d1s5 = 1;
@@ -216,29 +206,34 @@ void solveByIteration(Die d1, Die d2)
 // Die 1
     for (d1s6 = 0; d1s6 <= 3; d1s6++)
     {
-        for (d1s5 = d1s6++; d1s5 <= 4; d1s5++)
+        for (d1s5 = (d1s6 + 1); d1s5 <= 4; d1s5++)
         {
-            for (d1s4 = d1s5++; d1s4 <= 5; d1s4++)
+            for (d1s4 = (d1s5 + 1); d1s4 <= 5; d1s4++)
             {
-                for (d1s3 = d1s4++; d1s3 <= 6; d1s3++)
+                for (d1s3 = (d1s4 + 1); d1s3 <= 6; d1s3++)
                 {
-                    for (d1s2 = d1s3++; d1s2 <= 7; d1s2++)
+                    for (d1s2 = (d1s3 + 1); d1s2 <= 7; d1s2++)
                     {
-                        for (d1s1 = d1s2++; d1s1 <= 8; d1s1++)
+                        for (d1s1 = (d1s2 + 1); d1s1 <= 8; d1s1++)
                         {
 // Die 2
                             for (d2s6 = 0; d2s6 <= 3; d2s6++)
                             {
-                                for (d2s5 = d2s6++; d2s5 <= 4; d2s5++)
+                                for (d2s5 = (d2s6 + 1); d2s5 <= 4; d2s5++)
                                 {
-                                    for (d2s4 = d2s5++; d2s4 <= 5; d2s4++)
+                                    for (d2s4 = (d2s5 + 1); d2s4 <= 5; d2s4++)
                                     {
-                                        for (d2s3 = d2s4++; d2s3 <= 6; d2s3++)
+                                        for (d2s3 = (d2s4 + 1); d2s3 <= 6; d2s3++)
                                         {
-                                            for (d2s2 = d2s3++; d2s2 <= 7; d2s2++)
+                                            for (d2s2 = (d2s3 + 1); d2s2 <= 7; d2s2++)
                                             {
-                                                for (d2s1 = d2s2++; d2s1 <= 8; d2s1++)
+                                                for (d2s1 = (d2s2 + 1); d2s1 <= 8; d2s1++)
                                                 {
+                                                    IterativeCount++;
+                                                    
+                                                    Die d1 = Die(d1s1, d1s2, d1s3, d1s4, d1s5, d1s6);
+                                                    Die d2 = Die(d2s1, d2s2, d2s3, d2s4, d2s5, d2s6);
+                                                    
                                                     if (diceContainAllSquares(d1, d2))
                                                     {
                                                         SetCountbyIteration++;

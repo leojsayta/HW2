@@ -32,8 +32,6 @@ private:
     
     vector<int> dieSides = {5,4,3,2,1,0};
     
-    bool containsSix;
-    
     bool checkForDigit(int num)
     {
         for(int i = 0; i < this->dieSides.size(); i++)
@@ -44,7 +42,6 @@ private:
     
         return false;
     }
-    
     
 public:
     
@@ -131,8 +128,6 @@ public:
         return this->dieSides[5];
     }
    
-    bool ContainsSix();
-
     bool ContainsNumber(int num);
     
     int GetCurrentSidesInteger();

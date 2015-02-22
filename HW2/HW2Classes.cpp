@@ -6,10 +6,8 @@
 
 Die::Die()
 {
-    this->dieSides = {-1};
-    this->containsSix = false;
+    this->dieSides = {5,4,3,2,1,0};
     this->CurrentSide = DieSide::One;
-    this->CurrentDigit = -1;
 }
 
 Die::Die(int side1, int side2, int side3, int side4, int side5, int side6)
@@ -30,20 +28,12 @@ Die::Die(vector<int> sides)
     Die();
 
     if (sides.empty())
-        this->dieSides = {-1};
+        this->dieSides = {5,4,3,2,1,0};
     else
         SetDieSides(sides);
 }
 
-Die::~Die()
-{
-
-}
-
-bool Die::ContainsSix()
-{
-    return this->containsSix;
-}
+Die::~Die(){}
 
 bool Die::ContainsNumber(int num)
 {
