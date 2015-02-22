@@ -47,6 +47,10 @@ int main(int argc, const char *argv[])
     return 0;
 }
 
+/*
+ In order to avoid repeated sets (and duplicates) of face numbers,
+ we have to increment more than one side at a time.
+ */
 void solveByRecursion(Die d1, Die d2)
 {
     RecursiveCount++;
@@ -55,12 +59,12 @@ void solveByRecursion(Die d1, Die d2)
     {
         SetCountbyRecursion++;
         
-        printf("Die 1: %d, %d, %d, %d, %d, %d\n",
-               d1.GetSide1(), d1.GetSide2(), d1.GetSide3(),
-               d1.GetSide4(), d1.GetSide5(), d1.GetSide6());
-        printf("Die 2: %d, %d, %d, %d, %d, %d\n\n",
-               d2.GetSide1(), d2.GetSide2(), d2.GetSide3(),
-               d2.GetSide4(), d2.GetSide5(), d2.GetSide6());
+//        printf("Die 1: %d, %d, %d, %d, %d, %d\n",
+//               d1.GetSide1(), d1.GetSide2(), d1.GetSide3(),
+//               d1.GetSide4(), d1.GetSide5(), d1.GetSide6());
+//        printf("Die 2: %d, %d, %d, %d, %d, %d\n\n",
+//               d2.GetSide1(), d2.GetSide2(), d2.GetSide3(),
+//               d2.GetSide4(), d2.GetSide5(), d2.GetSide6());
     }
     
     if (d2.GetSide1() < 8) 
@@ -121,7 +125,8 @@ void solveByRecursion(Die d1, Die d2)
     }
     else
     {
-        d2.SetDieSides(vector<int> {5,4,3,2,1,0});
+        //d2.SetDieSides(vector<int> {5,4,3,2,1,0});    This results in a EXC_BAD_ACCESS error
+        d2 = Die(5,4,3,2,1,0);                      //  This does not
         
         if (d1.GetSide1() < 8) 
         {
@@ -187,6 +192,10 @@ void solveByRecursion(Die d1, Die d2)
     
 }
 
+/*
+ In order to avoid repeated sets (and duplicates) of face numbers,
+ we have to increment more than one side at a time.
+ */
 void solveByIteration()
 {
     int d1s6 = 0;
@@ -238,12 +247,12 @@ void solveByIteration()
                                                     {
                                                         SetCountbyIteration++;
                                                         
-                                                        printf("Die 1: %d, %d, %d, %d, %d, %d\n",
-                                                               d1.GetSide1(), d1.GetSide2(), d1.GetSide3(),
-                                                               d1.GetSide4(), d1.GetSide5(), d1.GetSide6());
-                                                        printf("Die 2: %d, %d, %d, %d, %d, %d\n\n",
-                                                               d2.GetSide1(), d2.GetSide2(), d2.GetSide3(),
-                                                               d2.GetSide4(), d2.GetSide5(), d2.GetSide6());
+//                                                        printf("Die 1: %d, %d, %d, %d, %d, %d\n",
+//                                                               d1.GetSide1(), d1.GetSide2(), d1.GetSide3(),
+//                                                               d1.GetSide4(), d1.GetSide5(), d1.GetSide6());
+//                                                        printf("Die 2: %d, %d, %d, %d, %d, %d\n\n",
+//                                                               d2.GetSide1(), d2.GetSide2(), d2.GetSide3(),
+//                                                               d2.GetSide4(), d2.GetSide5(), d2.GetSide6());
                                                     }
                                                 }
                                             }
@@ -261,6 +270,7 @@ void solveByIteration()
 // Die 1
 }
 
+// Check die faces for squares below 100
 bool diceContainAllSquares(Die d1, Die d2) 
 {
     if (!

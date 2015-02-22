@@ -24,14 +24,16 @@ enum class DieSide {
         Six = 5};
     
     
-
+// Represents one particular die and the integer value of that die's six sides
 class Die
 {
     
 private:
     
+    // Underlying representation of die is a vector with six indeces
     vector<int> dieSides = {5,4,3,2,1,0};
     
+    // Is 'num' displayed on one of this die's six faces?
     bool checkForDigit(int num)
     {
         for(int i = 0; i < this->dieSides.size(); i++)
@@ -64,7 +66,7 @@ public:
     
     void SetDieSides(vector<int> dieSides)
     {
-        this->dieSides.clear();
+        
         this->dieSides = dieSides;
     }
 
