@@ -34,12 +34,21 @@ int main(int argc, const char *argv[])
     try
     {
         solveByRecursion();
-        printf("Solving by recursion, the number of squares is: %d\n", SquaresbyRecursion);
+        solveByIteration();
+        
+        // Have to divide by 2 b/c each particular set of 2 die values is represented twice:
+        // For example: Die 1 = {0,4,5,6,7,8} & Die 2 = {1,2,3,4,5,6};
+        // later Die 1 = {1,2,3,4,5,6} & Die 2 = {0,4,5,6,7,8}.  A partiuclar solution will
+        // be represented twice.
+        int actualSqrsByRec = SquaresbyRecursion/2;
+        int actualSqrsbyIter = SquaresbyIteration/2;
+        
+        printf("Solving by recursion, the number of squares is: %d\n", actualSqrsByRec);
         printf("The number of recursive calls is: %d\n", RecursiveCount);
         
-        solveByIteration();
-        printf("Solving by iteration, the number of squares is: %d\n", SquaresbyIteration);
+        printf("Solving by iteration, the number of squares is: %d\n", actualSqrsbyIter);
         printf("The number of iterations is: %d\n", IterativeCount);
+        
     } 
     catch (exception &)
     {
@@ -55,19 +64,21 @@ int main(int argc, const char *argv[])
  */
 bool solveByRecursion(Die& d1, Die& d2)
 {
+    RecursiveCount++;
+    
+    bool allSquares = diceContainAllSquares(d1, d2);
+    
+    if (allSquares)
+    {
+        SquaresbyRecursion++;
+        
 //        printf("Die 1: %d, %d, %d, %d, %d, %d\n",
 //               d1.GetSide1(), d1.GetSide2(), d1.GetSide3(),
 //               d1.GetSide4(), d1.GetSide5(), d1.GetSide6());
 //        printf("Die 2: %d, %d, %d, %d, %d, %d\n\n",
 //               d2.GetSide1(), d2.GetSide2(), d2.GetSide3(),
 //               d2.GetSide4(), d2.GetSide5(), d2.GetSide6());
-
-    RecursiveCount++;
-    
-    bool allSquares = diceContainAllSquares(d1, d2);
-    
-    if (allSquares)
-        SquaresbyRecursion++;
+    }
     
     if (!d2.Increment())
     {
@@ -102,45 +113,31 @@ void solveByRecursion()
  */
 void solveByIteration()
 {
-    int d1s6 = 0;
-    int d1s5 = 1;
-    int d1s4 = 2;
-    int d1s3 = 3;
-    int d1s2 = 4;
-    int d1s1 = 5;
-    
-    int d2s6 = 0;
-    int d2s5 = 1;
-    int d2s4 = 2;
-    int d2s3 = 3;
-    int d2s2 = 4;
-    int d2s1 = 5;
-    
-// Die 1
-    for (d1s6 = 0; d1s6 <= 4; d1s6++)
+    // Die 1 ----------------------------------------
+    for (int d1s6 = 0; d1s6 <= 4; d1s6++)
     {
-        for (d1s5 = (d1s6 + 1); d1s5 <= 5; d1s5++)
+        for (int d1s5 = (d1s6 + 1); d1s5 <= 5; d1s5++)
         {
-            for (d1s4 = (d1s5 + 1); d1s4 <= 6; d1s4++)
+            for (int d1s4 = (d1s5 + 1); d1s4 <= 6; d1s4++)
             {
-                for (d1s3 = (d1s4 + 1); d1s3 <= 7; d1s3++)
+                for (int d1s3 = (d1s4 + 1); d1s3 <= 7; d1s3++)
                 {
-                    for (d1s2 = (d1s3 + 1); d1s2 <= 8; d1s2++)
+                    for (int d1s2 = (d1s3 + 1); d1s2 <= 8; d1s2++)
                     {
-                        for (d1s1 = (d1s2 + 1); d1s1 <= 9; d1s1++)
+                        for (int d1s1 = (d1s2 + 1); d1s1 <= 9; d1s1++)
                         {
-// Die 2
-                            for (d2s6 = 0; d2s6 <= 4; d2s6++)
+                            // Die 2 ----------------------------------------
+                            for (int d2s6 = 0; d2s6 <= 4; d2s6++)
                             {
-                                for (d2s5 = (d2s6 + 1); d2s5 <= 5; d2s5++)
+                                for (int d2s5 = (d2s6 + 1); d2s5 <= 5; d2s5++)
                                 {
-                                    for (d2s4 = (d2s5 + 1); d2s4 <= 6; d2s4++)
+                                    for (int d2s4 = (d2s5 + 1); d2s4 <= 6; d2s4++)
                                     {
-                                        for (d2s3 = (d2s4 + 1); d2s3 <= 7; d2s3++)
+                                        for (int d2s3 = (d2s4 + 1); d2s3 <= 7; d2s3++)
                                         {
-                                            for (d2s2 = (d2s3 + 1); d2s2 <= 8; d2s2++)
+                                            for (int d2s2 = (d2s3 + 1); d2s2 <= 8; d2s2++)
                                             {
-                                                for (d2s1 = (d2s2 + 1); d2s1 <= 9; d2s1++)
+                                                for (int d2s1 = (d2s2 + 1); d2s1 <= 9; d2s1++)
                                                 {
                                                     IterativeCount++;
                                                     
@@ -164,20 +161,21 @@ void solveByIteration()
                                     }
                                 }
                             }
-// Die 2
+                            // Die 2 ---------------------------------------------
                         }
                     }
                 }
             }
         }
     }
-// Die 1
+    // Die 1 ----------------------------------------
 }
 
 // Check die faces for squares below 100
 bool diceContainAllSquares(const Die& d1, const Die& d2)
 {
-    int combos[9][2] = { {0,1}, {0,4}, {0,6}, {1,6}, {2,5}, {3,6}, {4,6}, {6,4}, {8,1} };
+    const int numDiffSqrs = 8;
+    int combos[numDiffSqrs][2] = { {0,1}, {0,4}, {0,6}, {1,6}, {2,5}, {3,6}, {4,6}, {8,1} };
     
     vector<int> v1 = d1.GetDieSides();
     vector<int> v2 = d2.GetDieSides();
@@ -199,7 +197,7 @@ bool diceContainAllSquares(const Die& d1, const Die& d2)
     int valA = -1;
     int valB = -1;
     
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < numDiffSqrs; i++)
     {
         valA = combos[i][0];
         valB = combos[i][1];
