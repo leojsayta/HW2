@@ -15,9 +15,10 @@
 
 using namespace std;
 
-bool diceContainAllSquares(const Die d1, const Die d2);
+bool diceContainAllSquares(const Die& d1, const Die& d2);
 
-void solveByRecursion(Die d1, Die d2);
+void solveByRecursion();
+bool solveByRecursion(Die& d1, Die& d2);
 
 void solveByIteration();
 
@@ -30,7 +31,7 @@ int main(int argc, const char *argv[])
 {    
     try
     {
-        solveByRecursion(Die(5,4,3,2,1,0), Die(5,4,3,2,1,0));
+        solveByRecursion();
         printf("Solving by recursion, the number of squares is: %d\n", SetCountbyRecursion);
         printf("The number of recursive calls is: %d\n", RecursiveCount);
         
@@ -51,13 +52,13 @@ int main(int argc, const char *argv[])
  In order to avoid repeated sets (and duplicates) of face numbers,
  we have to increment more than one side at a time.
  */
-void solveByRecursion(Die d1, Die d2)
+bool solveByRecursion(Die& d1, Die& d2)
 {
     RecursiveCount++;
     
     if (diceContainAllSquares(d1, d2))
     {
-        SetCountbyRecursion++;
+//        SetCountbyRecursion++;
         
 //        printf("Die 1: %d, %d, %d, %d, %d, %d\n",
 //               d1.GetSide1(), d1.GetSide2(), d1.GetSide3(),
@@ -65,131 +66,180 @@ void solveByRecursion(Die d1, Die d2)
 //        printf("Die 2: %d, %d, %d, %d, %d, %d\n\n",
 //               d2.GetSide1(), d2.GetSide2(), d2.GetSide3(),
 //               d2.GetSide4(), d2.GetSide5(), d2.GetSide6());
-    }
-    
-    if (d2.GetSide1() < 8) 
-    {
-        d2.SetSide1(d2.GetSide1() + 1);
+        if (!d2.Increment())
+        {
+            if (!d1.Increment())
+            {
+                return false;
+            }
+        }
         
-        solveByRecursion(d1, d2);
-    } 
-    else if (d2.GetSide2() < 7) 
-    {
-        d2.SetSide2(d2.GetSide2() + 1);
-        
-        d2.SetSide1(d2.GetSide2() + 1);
-        
-        solveByRecursion(d1, d2);
-    } 
-    else if (d2.GetSide3() < 6) 
-    {
-        d2.SetSide3(d2.GetSide3() + 1);
-        
-        d2.SetSide2(d2.GetSide3() + 1);
-        d2.SetSide1(d2.GetSide2() + 1);
-        
-        solveByRecursion(d1, d2);
-    } 
-    else if (d2.GetSide4() < 5) 
-    {
-        d2.SetSide4(d2.GetSide4() + 1);
-        
-        d2.SetSide3(d2.GetSide4() + 1);
-        d2.SetSide2(d2.GetSide3() + 1);
-        d2.SetSide1(d2.GetSide2() + 1);
-        
-        solveByRecursion(d1, d2);
-    } 
-    else if (d2.GetSide5() < 4) 
-    {
-        d2.SetSide5(d2.GetSide5() + 1);
-        
-        d2.SetSide4(d2.GetSide5() + 1);
-        d2.SetSide3(d2.GetSide4() + 1);
-        d2.SetSide2(d2.GetSide3() + 1);
-        d2.SetSide1(d2.GetSide2() + 1);
-        
-        solveByRecursion(d1, d2);
-    } 
-    else if (d2.GetSide6() < 3) 
-    {
-        d2.SetSide6(d2.GetSide6() + 1);
-        
-        d2.SetSide5(d2.GetSide6() + 1);
-        d2.SetSide4(d2.GetSide5() + 1);
-        d2.SetSide3(d2.GetSide4() + 1);
-        d2.SetSide2(d2.GetSide3() + 1);
-        d2.SetSide1(d2.GetSide2() + 1);
-        
-        solveByRecursion(d1, d2);
+        return true;
     }
     else
     {
-        //d2.SetDieSides(vector<int> {5,4,3,2,1,0});    This results in a EXC_BAD_ACCESS error
-        d2 = Die(5,4,3,2,1,0);                      //  This does not
+        if (!d2.Increment())
+        {
+            if (!d1.Increment())
+            {
+                return false;
+            }
+            else
+            {
+                // reset d2
+                d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+            }
+        }
         
-        if (d1.GetSide1() < 8) 
-        {
-            d1.SetSide1(d1.GetSide1() + 1);
-            
-            solveByRecursion(d1, d2);
-        } 
-        else if (d1.GetSide2() < 7) 
-        {
-            d1.SetSide2(d1.GetSide2() + 1);
-            
-            d1.SetSide1(d1.GetSide2() + 1);
-            
-            solveByRecursion(d1, d2);
-        } 
-        else if (d1.GetSide3() < 6) 
-        {
-            d1.SetSide3(d1.GetSide3() + 1);
-            
-            d1.SetSide2(d1.GetSide3() + 1);
-            d1.SetSide1(d1.GetSide2() + 1);
-            
-            solveByRecursion(d1, d2);
-        } 
-        else if (d1.GetSide4() < 5) 
-        {
-            d1.SetSide4(d1.GetSide4() + 1);
-            
-            d1.SetSide3(d1.GetSide4() + 1);
-            d1.SetSide2(d1.GetSide3() + 1);
-            d1.SetSide1(d1.GetSide2() + 1);
-            
-            solveByRecursion(d1, d2);
-        } 
-        else if (d1.GetSide5() < 4) 
-        {
-            d1.SetSide5(d1.GetSide5() + 1);
-            
-            d1.SetSide4(d1.GetSide5() + 1);
-            d1.SetSide3(d1.GetSide4() + 1);
-            d1.SetSide2(d1.GetSide3() + 1);
-            d1.SetSide1(d1.GetSide2() + 1);
-            
-            solveByRecursion(d1, d2);
-        } 
-        else if (d1.GetSide6() < 3) 
-        {
-            d1.SetSide6(d1.GetSide6() + 1);
-            
-            d1.SetSide5(d1.GetSide6() + 1);
-            d1.SetSide4(d1.GetSide5() + 1);
-            d1.SetSide3(d1.GetSide4() + 1);
-            d1.SetSide2(d1.GetSide3() + 1);
-            d1.SetSide1(d1.GetSide2() + 1);
-            
-            solveByRecursion(d1, d2);
-        }
-        else
-        {
-            return;
-        }
+        return solveByRecursion(d1, d2);
     }
     
+//    if (d2.GetSide1() < 8)
+//    {
+//        d2.SetSide1(d2.GetSide1() + 1);
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d2.GetSide2() < 7) 
+//    {
+//        d2.SetSide2(d2.GetSide2() + 1);
+//        
+//        d2.SetSide1(d2.GetSide2() + 1);
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d2.GetSide3() < 6) 
+//    {
+//        d2.SetSide3(d2.GetSide3() + 1);
+//        
+//        d2.SetSide2(d2.GetSide3() + 1);
+//        d2.SetSide1(d2.GetSide2() + 1);
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d2.GetSide4() < 5) 
+//    {
+//        d2.SetSide4(d2.GetSide4() + 1);
+//        
+//        d2.SetSide3(d2.GetSide4() + 1);
+//        d2.SetSide2(d2.GetSide3() + 1);
+//        d2.SetSide1(d2.GetSide2() + 1);
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d2.GetSide5() < 4) 
+//    {
+//        d2.SetSide5(d2.GetSide5() + 1);
+//        
+//        d2.SetSide4(d2.GetSide5() + 1);
+//        d2.SetSide3(d2.GetSide4() + 1);
+//        d2.SetSide2(d2.GetSide3() + 1);
+//        d2.SetSide1(d2.GetSide2() + 1);
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d2.GetSide6() < 3) 
+//    {
+//        d2.SetSide6(d2.GetSide6() + 1);
+//        
+//        d2.SetSide5(d2.GetSide6() + 1);
+//        d2.SetSide4(d2.GetSide5() + 1);
+//        d2.SetSide3(d2.GetSide4() + 1);
+//        d2.SetSide2(d2.GetSide3() + 1);
+//        d2.SetSide1(d2.GetSide2() + 1);
+//        
+//        return solveByRecursion(d1, d2);
+//    }
+//    else if (d1.GetSide1() < 8)
+//    {
+//        d1.SetSide1(d1.GetSide1() + 1);
+//        
+//        // reset d2
+//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d1.GetSide2() < 7) 
+//    {
+//        d1.SetSide2(d1.GetSide2() + 1);
+//        
+//        d1.SetSide1(d1.GetSide2() + 1);
+//        
+//        // reset d2
+//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d1.GetSide3() < 6) 
+//    {
+//        d1.SetSide3(d1.GetSide3() + 1);
+//        
+//        d1.SetSide2(d1.GetSide3() + 1);
+//        d1.SetSide1(d1.GetSide2() + 1);
+//        
+//        // reset d2
+//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d1.GetSide4() < 5) 
+//    {
+//        d1.SetSide4(d1.GetSide4() + 1);
+//        
+//        d1.SetSide3(d1.GetSide4() + 1);
+//        d1.SetSide2(d1.GetSide3() + 1);
+//        d1.SetSide1(d1.GetSide2() + 1);
+//        
+//        // reset d2
+//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d1.GetSide5() < 4) 
+//    {
+//        d1.SetSide5(d1.GetSide5() + 1);
+//        
+//        d1.SetSide4(d1.GetSide5() + 1);
+//        d1.SetSide3(d1.GetSide4() + 1);
+//        d1.SetSide2(d1.GetSide3() + 1);
+//        d1.SetSide1(d1.GetSide2() + 1);
+//        
+//        // reset d2
+//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+//        
+//        return solveByRecursion(d1, d2);
+//    } 
+//    else if (d1.GetSide6() < 3) 
+//    {
+//        d1.SetSide6(d1.GetSide6() + 1);
+//        
+//        d1.SetSide5(d1.GetSide6() + 1);
+//        d1.SetSide4(d1.GetSide5() + 1);
+//        d1.SetSide3(d1.GetSide4() + 1);
+//        d1.SetSide2(d1.GetSide3() + 1);
+//        d1.SetSide1(d1.GetSide2() + 1);
+//        
+//        // reset d2
+//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+//        
+//        return solveByRecursion(d1, d2);
+//    }
+//    else
+//    {
+//        return false;
+//    }
+}
+
+void solveByRecursion()
+{
+    Die d1(5,4,3,2,1,0);
+    Die d2(5,4,3,2,1,0);
+    
+    while (solveByRecursion(d1, d2))
+    {
+        SetCountbyRecursion++;
+        
+    }
 }
 
 /*
@@ -271,50 +321,20 @@ void solveByIteration()
 }
 
 // Check die faces for squares below 100
-bool diceContainAllSquares(Die d1, Die d2) 
+bool diceContainAllSquares(const Die& d1, const Die& d2)
 {
-    if (!
-         ((d1.ContainsNumber(0) && d2.ContainsNumber(1) && d2.ContainsNumber(4) && d2.ContainsNumber(6))
-         || 
-         (d2.ContainsNumber(0) && d1.ContainsNumber(1) && d1.ContainsNumber(4) && d1.ContainsNumber(6)))   
-       )
-        return false;
+    int combos[9][2] = { {0,1}, {0,4}, {0,6}, {1,6}, {2,5}, {3,6},{4,6}, {6,4}, {8,1} };
     
-    if (!
-         ((d1.ContainsNumber(1) && d2.ContainsNumber(6))
-         || 
-         (d2.ContainsNumber(1) && d1.ContainsNumber(6)))   
-       )
-        return false;
-    
-    if (!
-         ((d1.ContainsNumber(2) && d2.ContainsNumber(5))
-         || 
-         (d2.ContainsNumber(2) && d1.ContainsNumber(5)))   
-       )
-        return false;
-    
-    if (!
-         ((d1.ContainsNumber(3) && d2.ContainsNumber(6))
-         || 
-         (d2.ContainsNumber(3) && d1.ContainsNumber(6)))   
-       )
-        return false;
-    
-    if (!
-         ((d1.ContainsNumber(4) && d2.ContainsNumber(6))
-         || 
-         (d2.ContainsNumber(4) && d1.ContainsNumber(6)))   
-       )
-        return false;
-    
-    if (!
-         ((d1.ContainsNumber(8) && d2.ContainsNumber(1))
-         || 
-         (d2.ContainsNumber(8) && d1.ContainsNumber(1)))   
-       )
-        return false;
+    for (int i = 0; i < 9; i++)
+    {
+        if (
+            !( (d1.ContainsNumber(combos[i][0]) && d2.ContainsNumber(combos[i][1]))
+              ||
+               (d2.ContainsNumber(combos[i][0]) && d1.ContainsNumber(combos[i][1]))) )
+        {
+            return false;
+        }
+    }
     
     return true;
-
 }

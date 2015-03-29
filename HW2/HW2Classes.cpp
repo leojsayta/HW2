@@ -8,12 +8,11 @@ Die::Die()
 {
     this->dieSides = {5,4,3,2,1,0};
     this->CurrentSide = DieSide::One;
+    this->CurrentDigit = 5;
 }
 
-Die::Die(int side1, int side2, int side3, int side4, int side5, int side6)
+Die::Die(int side1, int side2, int side3, int side4, int side5, int side6):Die()
 {
-    Die();
-
     this->dieSides[0] = side1;
     this->dieSides[1] = side2;
     this->dieSides[2] = side3;
@@ -23,19 +22,24 @@ Die::Die(int side1, int side2, int side3, int side4, int side5, int side6)
 
 }
 
-Die::Die(vector<int> sides)
+Die::Die(vector<int> sides):Die()
 {
-    Die();
-
     if (sides.empty())
         this->dieSides = {5,4,3,2,1,0};
     else
         SetDieSides(sides);
 }
 
+Die::Die(const Die& orig): Die()
+{
+    this->dieSides = orig.GetDieSides();
+    this->CurrentSide = orig.CurrentSide;
+    this->CurrentDigit = orig.CurrentDigit;
+}
+
 Die::~Die(){}
 
-bool Die::ContainsNumber(int num)
+bool Die::ContainsNumber(int num) const
 {
     return this->checkForDigit(num);
 }
@@ -108,4 +112,66 @@ DieSide Die::IncrementSide()
     }
 
     return this->CurrentSide;
+}
+
+bool Die::Increment()
+{
+    if (this->GetSide1() < 8)
+    {
+        this->SetSide1(this->GetSide1() + 1);
+        
+        return true;
+    }
+    else if (this->GetSide2() < 7)
+    {
+        this->SetSide2(this->GetSide2() + 1);
+        
+        this->SetSide1(this->GetSide2() + 1);
+        
+        return true;
+    }
+    else if (this->GetSide3() < 6)
+    {
+        this->SetSide3(this->GetSide3() + 1);
+        
+        this->SetSide2(this->GetSide3() + 1);
+        this->SetSide1(this->GetSide2() + 1);
+        
+        return true;
+    }
+    else if (this->GetSide4() < 5)
+    {
+        this->SetSide4(this->GetSide4() + 1);
+        
+        this->SetSide3(this->GetSide4() + 1);
+        this->SetSide2(this->GetSide3() + 1);
+        this->SetSide1(this->GetSide2() + 1);
+        
+        return true;
+    }
+    else if (this->GetSide5() < 4)
+    {
+        this->SetSide5(this->GetSide5() + 1);
+        
+        this->SetSide4(this->GetSide5() + 1);
+        this->SetSide3(this->GetSide4() + 1);
+        this->SetSide2(this->GetSide3() + 1);
+        this->SetSide1(this->GetSide2() + 1);
+        
+        return true;
+    }
+    else if (this->GetSide6() < 3)
+    {
+        this->SetSide6(this->GetSide6() + 1);
+        
+        this->SetSide5(this->GetSide6() + 1);
+        this->SetSide4(this->GetSide5() + 1);
+        this->SetSide3(this->GetSide4() + 1);
+        this->SetSide2(this->GetSide3() + 1);
+        this->SetSide1(this->GetSide2() + 1);
+        
+        return true;
+    }
+    else
+        return false;
 }

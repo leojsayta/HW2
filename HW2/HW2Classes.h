@@ -34,7 +34,7 @@ private:
     vector<int> dieSides = {5,4,3,2,1,0};
     
     // Is 'num' displayed on one of this die's six faces?
-    bool checkForDigit(int num)
+    bool checkForDigit(int num) const
     {
         for(int i = 0; i < this->dieSides.size(); i++)
         {
@@ -56,10 +56,12 @@ public:
     Die(int side1, int side2, int side3, int side4, int side5, int side6);
     
     Die(vector<int> sides);
+    
+    Die(const Die& orig);
    
     ~Die();
     
-    vector<int> GetDieSides()
+    vector<int> GetDieSides() const
     {
         return dieSides;
     }
@@ -70,7 +72,7 @@ public:
         this->dieSides = dieSides;
     }
 
-    int GetSide1() 
+    int GetSide1() const
     {
         return this->dieSides[0];
     }
@@ -80,7 +82,7 @@ public:
         return this->dieSides[0];
     }
     
-    int GetSide2()
+    int GetSide2() const
     {
         return this->dieSides[1];
     }
@@ -90,7 +92,7 @@ public:
         return this->dieSides[1];
     }
     
-    int GetSide3()
+    int GetSide3() const
     {
         return this->dieSides[2];
     }
@@ -100,7 +102,7 @@ public:
         return this->dieSides[2];
     }
     
-    int GetSide4() 
+    int GetSide4() const
     {
         return this->dieSides[3];
     }
@@ -110,7 +112,7 @@ public:
         return this->dieSides[3];
     }
 
-    int GetSide5() 
+    int GetSide5() const
     {
         return this->dieSides[4];
     }
@@ -120,7 +122,7 @@ public:
         return this->dieSides[4];
     }
 
-    int GetSide6() 
+    int GetSide6() const 
     {
         return this->dieSides[5];
     }
@@ -130,13 +132,15 @@ public:
         return this->dieSides[5];
     }
    
-    bool ContainsNumber(int num);
+    bool ContainsNumber(int num) const;
     
     int GetCurrentSidesInteger();
    
     int IncrementCurrentSidesDigit();
     
     DieSide IncrementSide();
+    
+    bool Increment();
     
 };
 
