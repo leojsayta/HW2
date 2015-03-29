@@ -116,13 +116,13 @@ DieSide Die::IncrementSide()
 
 bool Die::Increment()
 {
-    if (this->GetSide1() < 8)
+    if (this->GetSide1() < 9)
     {
         this->SetSide1(this->GetSide1() + 1);
         
         return true;
     }
-    else if (this->GetSide2() < 7)
+    else if (this->GetSide2() < 8)
     {
         this->SetSide2(this->GetSide2() + 1);
         
@@ -130,7 +130,7 @@ bool Die::Increment()
         
         return true;
     }
-    else if (this->GetSide3() < 6)
+    else if (this->GetSide3() < 7)
     {
         this->SetSide3(this->GetSide3() + 1);
         
@@ -139,7 +139,7 @@ bool Die::Increment()
         
         return true;
     }
-    else if (this->GetSide4() < 5)
+    else if (this->GetSide4() < 6)
     {
         this->SetSide4(this->GetSide4() + 1);
         
@@ -149,7 +149,7 @@ bool Die::Increment()
         
         return true;
     }
-    else if (this->GetSide5() < 4)
+    else if (this->GetSide5() < 5)
     {
         this->SetSide5(this->GetSide5() + 1);
         
@@ -160,7 +160,7 @@ bool Die::Increment()
         
         return true;
     }
-    else if (this->GetSide6() < 3)
+    else if (this->GetSide6() < 4)
     {
         this->SetSide6(this->GetSide6() + 1);
         

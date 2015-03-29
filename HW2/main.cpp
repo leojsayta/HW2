@@ -15,6 +15,8 @@
 
 using namespace std;
 
+//vector<vector<int>> allCombination(int k, int n);
+
 bool diceContainAllSquares(const Die& d1, const Die& d2);
 
 void solveByRecursion();
@@ -22,26 +24,25 @@ bool solveByRecursion(Die& d1, Die& d2);
 
 void solveByIteration();
 
-int SetCountbyRecursion = 0;
-int SetCountbyIteration = 0;
+int SquaresbyRecursion = 0;
+int SquaresbyIteration = 0;
 int RecursiveCount = 0;
 int IterativeCount = 0;
 
 int main(int argc, const char *argv[]) 
-{    
+{
     try
     {
         solveByRecursion();
-        printf("Solving by recursion, the number of squares is: %d\n", SetCountbyRecursion);
+        printf("Solving by recursion, the number of squares is: %d\n", SquaresbyRecursion);
         printf("The number of recursive calls is: %d\n", RecursiveCount);
         
         solveByIteration();
-        printf("Solving by iteration, the number of squares is: %d\n", SetCountbyIteration);
+        printf("Solving by iteration, the number of squares is: %d\n", SquaresbyIteration);
         printf("The number of iterations is: %d\n", IterativeCount);
     } 
     catch (exception &)
     {
-        printf("\nSomething went wrong!  Please start over.");
         return -1;
     }
 
@@ -54,180 +55,37 @@ int main(int argc, const char *argv[])
  */
 bool solveByRecursion(Die& d1, Die& d2)
 {
-    RecursiveCount++;
-    
-    if (diceContainAllSquares(d1, d2))
-    {
-//        SetCountbyRecursion++;
-        
 //        printf("Die 1: %d, %d, %d, %d, %d, %d\n",
 //               d1.GetSide1(), d1.GetSide2(), d1.GetSide3(),
 //               d1.GetSide4(), d1.GetSide5(), d1.GetSide6());
 //        printf("Die 2: %d, %d, %d, %d, %d, %d\n\n",
 //               d2.GetSide1(), d2.GetSide2(), d2.GetSide3(),
 //               d2.GetSide4(), d2.GetSide5(), d2.GetSide6());
-        if (!d2.Increment())
-        {
-            if (!d1.Increment())
-            {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    else
+
+    RecursiveCount++;
+    
+    bool allSquares = diceContainAllSquares(d1, d2);
+    
+    if (allSquares)
+        SquaresbyRecursion++;
+    
+    if (!d2.Increment())
     {
-        if (!d2.Increment())
+        if (!d1.Increment())
         {
-            if (!d1.Increment())
-            {
-                return false;
-            }
-            else
-            {
-                // reset d2
-                d2.SetDieSides(vector<int>{5,4,3,2,1,0});
-            }
+            return false;
         }
-        
-        return solveByRecursion(d1, d2);
+        else
+        {
+            // reset d2
+            d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+        }
     }
     
-//    if (d2.GetSide1() < 8)
-//    {
-//        d2.SetSide1(d2.GetSide1() + 1);
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d2.GetSide2() < 7) 
-//    {
-//        d2.SetSide2(d2.GetSide2() + 1);
-//        
-//        d2.SetSide1(d2.GetSide2() + 1);
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d2.GetSide3() < 6) 
-//    {
-//        d2.SetSide3(d2.GetSide3() + 1);
-//        
-//        d2.SetSide2(d2.GetSide3() + 1);
-//        d2.SetSide1(d2.GetSide2() + 1);
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d2.GetSide4() < 5) 
-//    {
-//        d2.SetSide4(d2.GetSide4() + 1);
-//        
-//        d2.SetSide3(d2.GetSide4() + 1);
-//        d2.SetSide2(d2.GetSide3() + 1);
-//        d2.SetSide1(d2.GetSide2() + 1);
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d2.GetSide5() < 4) 
-//    {
-//        d2.SetSide5(d2.GetSide5() + 1);
-//        
-//        d2.SetSide4(d2.GetSide5() + 1);
-//        d2.SetSide3(d2.GetSide4() + 1);
-//        d2.SetSide2(d2.GetSide3() + 1);
-//        d2.SetSide1(d2.GetSide2() + 1);
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d2.GetSide6() < 3) 
-//    {
-//        d2.SetSide6(d2.GetSide6() + 1);
-//        
-//        d2.SetSide5(d2.GetSide6() + 1);
-//        d2.SetSide4(d2.GetSide5() + 1);
-//        d2.SetSide3(d2.GetSide4() + 1);
-//        d2.SetSide2(d2.GetSide3() + 1);
-//        d2.SetSide1(d2.GetSide2() + 1);
-//        
-//        return solveByRecursion(d1, d2);
-//    }
-//    else if (d1.GetSide1() < 8)
-//    {
-//        d1.SetSide1(d1.GetSide1() + 1);
-//        
-//        // reset d2
-//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d1.GetSide2() < 7) 
-//    {
-//        d1.SetSide2(d1.GetSide2() + 1);
-//        
-//        d1.SetSide1(d1.GetSide2() + 1);
-//        
-//        // reset d2
-//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d1.GetSide3() < 6) 
-//    {
-//        d1.SetSide3(d1.GetSide3() + 1);
-//        
-//        d1.SetSide2(d1.GetSide3() + 1);
-//        d1.SetSide1(d1.GetSide2() + 1);
-//        
-//        // reset d2
-//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d1.GetSide4() < 5) 
-//    {
-//        d1.SetSide4(d1.GetSide4() + 1);
-//        
-//        d1.SetSide3(d1.GetSide4() + 1);
-//        d1.SetSide2(d1.GetSide3() + 1);
-//        d1.SetSide1(d1.GetSide2() + 1);
-//        
-//        // reset d2
-//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d1.GetSide5() < 4) 
-//    {
-//        d1.SetSide5(d1.GetSide5() + 1);
-//        
-//        d1.SetSide4(d1.GetSide5() + 1);
-//        d1.SetSide3(d1.GetSide4() + 1);
-//        d1.SetSide2(d1.GetSide3() + 1);
-//        d1.SetSide1(d1.GetSide2() + 1);
-//        
-//        // reset d2
-//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
-//        
-//        return solveByRecursion(d1, d2);
-//    } 
-//    else if (d1.GetSide6() < 3) 
-//    {
-//        d1.SetSide6(d1.GetSide6() + 1);
-//        
-//        d1.SetSide5(d1.GetSide6() + 1);
-//        d1.SetSide4(d1.GetSide5() + 1);
-//        d1.SetSide3(d1.GetSide4() + 1);
-//        d1.SetSide2(d1.GetSide3() + 1);
-//        d1.SetSide1(d1.GetSide2() + 1);
-//        
-//        // reset d2
-//        d2.SetDieSides(vector<int>{5,4,3,2,1,0});
-//        
-//        return solveByRecursion(d1, d2);
-//    }
-//    else
-//    {
-//        return false;
-//    }
+    if (allSquares)
+        return true;
+    else
+        return solveByRecursion(d1, d2);
 }
 
 void solveByRecursion()
@@ -235,11 +93,7 @@ void solveByRecursion()
     Die d1(5,4,3,2,1,0);
     Die d2(5,4,3,2,1,0);
     
-    while (solveByRecursion(d1, d2))
-    {
-        SetCountbyRecursion++;
-        
-    }
+    while (solveByRecursion(d1, d2));
 }
 
 /*
@@ -263,30 +117,30 @@ void solveByIteration()
     int d2s1 = 5;
     
 // Die 1
-    for (d1s6 = 0; d1s6 <= 3; d1s6++)
+    for (d1s6 = 0; d1s6 <= 4; d1s6++)
     {
-        for (d1s5 = (d1s6 + 1); d1s5 <= 4; d1s5++)
+        for (d1s5 = (d1s6 + 1); d1s5 <= 5; d1s5++)
         {
-            for (d1s4 = (d1s5 + 1); d1s4 <= 5; d1s4++)
+            for (d1s4 = (d1s5 + 1); d1s4 <= 6; d1s4++)
             {
-                for (d1s3 = (d1s4 + 1); d1s3 <= 6; d1s3++)
+                for (d1s3 = (d1s4 + 1); d1s3 <= 7; d1s3++)
                 {
-                    for (d1s2 = (d1s3 + 1); d1s2 <= 7; d1s2++)
+                    for (d1s2 = (d1s3 + 1); d1s2 <= 8; d1s2++)
                     {
-                        for (d1s1 = (d1s2 + 1); d1s1 <= 8; d1s1++)
+                        for (d1s1 = (d1s2 + 1); d1s1 <= 9; d1s1++)
                         {
 // Die 2
-                            for (d2s6 = 0; d2s6 <= 3; d2s6++)
+                            for (d2s6 = 0; d2s6 <= 4; d2s6++)
                             {
-                                for (d2s5 = (d2s6 + 1); d2s5 <= 4; d2s5++)
+                                for (d2s5 = (d2s6 + 1); d2s5 <= 5; d2s5++)
                                 {
-                                    for (d2s4 = (d2s5 + 1); d2s4 <= 5; d2s4++)
+                                    for (d2s4 = (d2s5 + 1); d2s4 <= 6; d2s4++)
                                     {
-                                        for (d2s3 = (d2s4 + 1); d2s3 <= 6; d2s3++)
+                                        for (d2s3 = (d2s4 + 1); d2s3 <= 7; d2s3++)
                                         {
-                                            for (d2s2 = (d2s3 + 1); d2s2 <= 7; d2s2++)
+                                            for (d2s2 = (d2s3 + 1); d2s2 <= 8; d2s2++)
                                             {
-                                                for (d2s1 = (d2s2 + 1); d2s1 <= 8; d2s1++)
+                                                for (d2s1 = (d2s2 + 1); d2s1 <= 9; d2s1++)
                                                 {
                                                     IterativeCount++;
                                                     
@@ -295,7 +149,7 @@ void solveByIteration()
                                                     
                                                     if (diceContainAllSquares(d1, d2))
                                                     {
-                                                        SetCountbyIteration++;
+                                                        SquaresbyIteration++;
                                                         
 //                                                        printf("Die 1: %d, %d, %d, %d, %d, %d\n",
 //                                                               d1.GetSide1(), d1.GetSide2(), d1.GetSide3(),
@@ -323,14 +177,39 @@ void solveByIteration()
 // Check die faces for squares below 100
 bool diceContainAllSquares(const Die& d1, const Die& d2)
 {
-    int combos[9][2] = { {0,1}, {0,4}, {0,6}, {1,6}, {2,5}, {3,6},{4,6}, {6,4}, {8,1} };
+    int combos[9][2] = { {0,1}, {0,4}, {0,6}, {1,6}, {2,5}, {3,6}, {4,6}, {6,4}, {8,1} };
+    
+    vector<int> v1 = d1.GetDieSides();
+    vector<int> v2 = d2.GetDieSides();
+    
+    for (int j = 0; j < 6; j++)
+    {
+        if (v1[j] == 9) {
+            v1[j] = 6;
+        }
+        
+        if (v2[j] == 9) {
+            v2[j] = 6;
+        }
+    }
+    
+    Die tmpD1 = Die(v1);
+    Die tmpD2 = Die(v2);
+    
+    int valA = -1;
+    int valB = -1;
     
     for (int i = 0; i < 9; i++)
     {
-        if (
-            !( (d1.ContainsNumber(combos[i][0]) && d2.ContainsNumber(combos[i][1]))
-              ||
-               (d2.ContainsNumber(combos[i][0]) && d1.ContainsNumber(combos[i][1]))) )
+        valA = combos[i][0];
+        valB = combos[i][1];
+
+        if ( !(
+               (tmpD1.ContainsNumber(valA) && tmpD2.ContainsNumber(valB))
+               ||
+               (tmpD2.ContainsNumber(valA) && tmpD1.ContainsNumber(valB))
+               )
+            )
         {
             return false;
         }
@@ -338,3 +217,43 @@ bool diceContainAllSquares(const Die& d1, const Die& d2)
     
     return true;
 }
+
+vector<vector<int>> allCombination(int k, int n)
+{
+    
+    vector<vector<int>> combs = *new vector<vector<int>>();
+    vector<int> comb = *new vector<int>();
+    
+    for (int i = 0; i < k; i++)
+    {
+        comb.push_back(i);
+    }
+    
+    while (true)
+    {
+        combs.push_back(comb);
+        //create new array with old solution
+        comb = *new vector<int>(comb);
+        
+        //Substitute 9 with 6 in the last solution
+        if (combs[combs.size() - 1][k - 1] == 9)
+            combs[combs.size() - 1][k - 1] = 6;
+        
+        int i = k - 1;
+        ++comb[i];
+        while ( (i > 0) && (comb[i] >= n - k + 1 + i) )
+        {
+            --i;
+            ++comb[i];
+        }
+        
+        if (comb[0] > n - k)
+            break;
+        
+        for (i = i + 1; i < k; ++i)
+            comb[i] = comb[i - 1] + 1;
+    }
+    
+    return combs;
+}
+
