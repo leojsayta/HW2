@@ -66,9 +66,8 @@ public:
         return dieSides;
     }
     
-    void SetDieSides(vector<int> dieSides)
+    void SetDieSides(vector<int> dieSides = {5,4,3,2,1,0})
     {
-        
         this->dieSides = dieSides;
     }
 

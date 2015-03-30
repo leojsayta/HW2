@@ -89,7 +89,7 @@ bool solveByRecursion(Die& d1, Die& d2)
         else
         {
             // reset d2
-            d2.SetDieSides(vector<int>{5,4,3,2,1,0});
+            d2.SetDieSides();
         }
     }
     
