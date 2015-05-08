@@ -40,7 +40,7 @@ int main(int argc, const char *argv[])
         // For example: Die 1 = {0,4,5,6,7,8} & Die 2 = {1,2,3,4,5,6};
         // later Die 1 = {1,2,3,4,5,6} & Die 2 = {0,4,5,6,7,8}.  A partiuclar solution will
         // be represented twice.
-        int actualSqrsByRec = SquaresbyRecursion/2;
+        int actualSqrsByRec = SquaresbyRecursion;
         int actualSqrsbyIter = SquaresbyIteration/2;
         
         printf("Solving by recursion, the number of squares is: %d\n", actualSqrsByRec);
@@ -89,7 +89,12 @@ bool solveByRecursion(Die& d1, Die& d2)
         else
         {
             // reset d2
-            d2.SetDieSides();
+            //d2.SetDieSides();
+            
+            d2 = d1;
+            if(!d2.Increment())     // Set d2 to d1++ to avoid finding dups
+                return false;
+            
         }
     }
     
@@ -127,17 +132,24 @@ void solveByIteration()
                         for (int d1s1 = (d1s2 + 1); d1s1 <= 9; d1s1++)
                         {
                             // Die 2 ----------------------------------------
-                            for (int d2s6 = 0; d2s6 <= 4; d2s6++)
+                            int d2s6 = 0;
+                            int d2s5 = 0;
+                            int d2s4 = 0;
+                            int d2s3 = 0;
+                            int d2s2 = 0;
+                            int d2s1 = 0;
+                            
+                            for (d2s6 = 0; d2s6 <= 4; d2s6++)
                             {
-                                for (int d2s5 = (d2s6 + 1); d2s5 <= 5; d2s5++)
+                                for (d2s5 = (d2s6 + 1); d2s5 <= 5; d2s5++)
                                 {
-                                    for (int d2s4 = (d2s5 + 1); d2s4 <= 6; d2s4++)
+                                    for (d2s4 = (d2s5 + 1); d2s4 <= 6; d2s4++)
                                     {
-                                        for (int d2s3 = (d2s4 + 1); d2s3 <= 7; d2s3++)
+                                        for (d2s3 = (d2s4 + 1); d2s3 <= 7; d2s3++)
                                         {
-                                            for (int d2s2 = (d2s3 + 1); d2s2 <= 8; d2s2++)
+                                            for (d2s2 = (d2s3 + 1); d2s2 <= 8; d2s2++)
                                             {
-                                                for (int d2s1 = (d2s2 + 1); d2s1 <= 9; d2s1++)
+                                                for (d2s1 = (d2s2 + 1); d2s1 <= 9; d2s1++)
                                                 {
                                                     IterativeCount++;
                                                     
